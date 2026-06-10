@@ -15,6 +15,22 @@ function createApp() {
 
   app.get('/health', (req, res) => res.json({ ok: true }));
 
+  // Friendly index so hitting the root in a browser shows the API surface.
+  app.get('/', (req, res) =>
+    res.json({
+      service: 'QuickSlot API',
+      status: 'ok',
+      endpoints: [
+        'GET /venues',
+        'GET /venues/:id/slots?date=YYYY-MM-DD',
+        'POST /bookings  (header X-User-Id)',
+        'GET /users',
+        'GET /users/:id/bookings',
+        'DELETE /bookings/:id  (header X-User-Id)',
+      ],
+    })
+  );
+
   app.use('/venues', venuesRouter);
   app.use('/bookings', bookingsRouter);
   app.use('/users', usersRouter);
