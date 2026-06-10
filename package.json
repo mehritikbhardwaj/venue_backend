@@ -1,0 +1,21 @@
+{
+  "name": "quickslot-backend",
+  "version": "1.0.0",
+  "description": "QuickSlot REST API — concurrency-safe sports slot booking",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "migrate": "node src/db/migrate.js",
+    "seed": "node src/db/seed.js",
+    "setup": "npm run migrate && npm run seed",
+    "test:concurrency": "node scripts/concurrency-test.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.12.0"
+  }
+}
