@@ -43,6 +43,9 @@ the slot frees up for re-booking.
 
 | Method | Path | Notes |
 |---|---|---|
+| POST | `/auth/request-otp` | `{mobile}` → find-or-create user, returns 6-digit OTP (demo) + `is_new_user` |
+| POST | `/auth/verify-otp` | `{mobile,otp}` → authenticated user; 401 on wrong/expired |
+| PATCH | `/users/:id` | `{name}` → set display name for a new user |
 | GET | `/venues` | list venues |
 | GET | `/venues/:id/slots?date=YYYY-MM-DD` | hourly slots with status |
 | POST | `/bookings` | body `{venue_id,date,start_hour}`, header `X-User-Id`; 201 / 409 / 400 / 401 / 404 |

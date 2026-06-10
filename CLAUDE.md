@@ -55,6 +55,9 @@ These rules are binding for any change in this repo. Follow them; don't drift.
 ## Endpoints (frozen contract the Flutter app depends on)
 
 ```
+POST   /auth/request-otp   { mobile }          -> { user_id, mobile, otp, is_new_user, name }
+POST   /auth/verify-otp    { mobile, otp }      -> { id, name, mobile, is_new_user } | 401
+PATCH  /users/:id          { name }             -> { id, name, mobile } | 404
 GET    /venues
 GET    /venues/:id/slots?date=YYYY-MM-DD   -> { venue_id, date, slots:[...] }
 POST   /bookings        body {venue_id,date,start_hour}  header X-User-Id  -> 201|400|401|404|409
