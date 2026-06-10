@@ -5,9 +5,22 @@
 -- left-anti-join against the bookings table.
 
 CREATE TABLE IF NOT EXISTS users (
-  id    SERIAL PRIMARY KEY,
-  name  TEXT NOT NULL
+  id              SERIAL PRIMARY KEY,
+  name            TEXT NOT NULL DEFAULT '',   -- empty until a new user sets it
+  mobile          TEXT,                        -- 10-digit phone, login identity
+  otp_code        TEXT,                        -- last issued OTP (demo: returned in API)
+  otp_expires_at  TIMESTAMPTZ                  -- OTP validity window
 );
+
+-- Bring existing databases up to date (no-ops if already applied).
+ALTER TABLE users ADD COLUMN IF NOT EXISTS mobile         TEXT;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS otp_code       TEXT;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS otp_expires_at TIMESTAMPTZ;
+ALTER TABLE users ALTER COLUMN name SET DEFAULT '';
+
+-- One account per mobile number (NULLs allowed for legacy/seeded rows).
+CREATE UNIQUE INDEX IF NOT EXISTS uniq_user_mobile
+  ON users (mobile) WHERE mobile IS NOT NULL;
 
 CREATE TABLE IF NOT EXISTS venues (
   id        SERIAL PRIMARY KEY,

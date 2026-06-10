@@ -5,9 +5,9 @@
 const { pool } = require('./pool');
 
 const USERS = [
-  { id: 1, name: 'Aarav' },
-  { id: 2, name: 'Diya' },
-  { id: 3, name: 'Kabir' },
+  { name: 'Aarav', mobile: '9000000001' },
+  { name: 'Diya', mobile: '9000000002' },
+  { name: 'Kabir', mobile: '9000000003' },
 ];
 
 const VENUES = [
@@ -26,7 +26,7 @@ async function seed() {
     await client.query('TRUNCATE bookings, venues, users RESTART IDENTITY CASCADE');
 
     for (const u of USERS) {
-      await client.query('INSERT INTO users (name) VALUES ($1)', [u.name]);
+      await client.query('INSERT INTO users (name, mobile) VALUES ($1, $2)', [u.name, u.mobile]);
     }
 
     for (const v of VENUES) {
